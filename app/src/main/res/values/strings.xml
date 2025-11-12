@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Durga AI</string>
+    <string name="tile_label">AI Assistant</string>
+    <string name="notification_title">Durga AI Assistant</string>
+    <string name="notification_text">Overlay is active and ready</string>
+    <string name="accessibility_service_description">Allows Durga AI to read chat messages and insert replies into messaging apps</string>
+</resources>
