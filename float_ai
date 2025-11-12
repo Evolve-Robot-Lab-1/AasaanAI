@@ -1,0 +1,191 @@
+## Durga AI Float Assistant - Development Plan
+
+### Objective
+
+Upgrade the unified Durga AI app to a production-ready Float Assistant that runs persistently on Android, reads chat context via OCR + Accessibility, integrates user personas, and generates human-like replies.
+
+---
+
+### Phase 0 – Core Refactor (Day 0-1)
+
+**Goal:** Separate overlay logic from AI logic.
+
+```
+durgaai/
+ ├── overlay/
+ ├── ai_engine/
+ ├── persona/
+ ├── data_import/
+ └── accessibility_bridge/
+```
+
+**Deliverable:** Modular architecture for independent testing.
+
+---
+
+### Phase 1 – Overlay Lifecycle Control (Day 2-3)
+
+**Goal:** Make bubble persistent and reliable.
+
+* Start as a foreground service (Android 12+ compliance)
+* Handle background restrictions
+* Auto-restart on boot
+* Add Quick Tile toggle for enabling/disabling overlay
+
+**Deliverable:** Bubble remains active at all times.
+
+---
+
+### Phase 2 – Screen Reader + OCR Fusion (Day 4-5)
+
+**Goal:** Extract chat text efficiently.
+
+* Prefer Accessibility node extraction
+* Fallback to screenshot + ML Kit OCR
+* Remove duplicate lines and compress text
+* Delete screenshots post-processing
+
+**Deliverable:** Chat text extraction in under 1 second.
+
+---
+
+### Phase 3 – AI Engine with Persona Injection (Day 6-7)
+
+**Goal:** Generate natural replies using persona.
+
+Prompt Example:
+
+```
+You are the user's personal AI clone.
+Persona:
+<persona_json>
+Conversation:
+<ocr_text>
+Generate 3 reply options:
+1. Short casual
+2. Polite professional
+3. Humorous
+```
+
+**Deliverable:** Persona-influenced AI replies displayed in overlay.
+
+---
+
+### Phase 4 – Reply Insertion (Day 8-9)
+
+**Goal:** Seamless one-tap reply.
+
+* Primary: ACTION_SET_TEXT via Accessibility
+* Fallback: Clipboard + ACTION_PASTE
+* Optional: Power Mode with auto-send
+* Haptic feedback confirmation
+
+**Deliverable:** Full Read → Reply → Insert flow.
+
+---
+
+### Phase 5 – UI and Tone Options (Day 10)
+
+**Goal:** Enhance usability.
+
+* Overlay panel with tone chips (Short, Long, Fun, Formal, Emoji+)
+* Add Regenerate button
+* Smooth Compose animations
+
+**Deliverable:** Polished, user-friendly overlay.
+
+---
+
+### Phase 6 – Learning Feedback (Day 11-12)
+
+**Goal:** Enable adaptive behavior.
+
+* Log user reply selections
+* Update persona incrementally
+* Cloud sync if enabled
+
+**Deliverable:** Adaptive tone improvement mechanism.
+
+---
+
+### Phase 7 – Performance Optimization (Day 13)
+
+**Goal:** Battery and performance efficiency.
+
+* Profile resource usage
+* Optimize OCR threading
+* Limit AI requests to single session
+
+**Deliverable:** Stable and efficient background service.
+
+---
+
+### Phase 8 – Beta Deployment (Day 14-15)
+
+**Goal:** Release for internal testing.
+
+* Sign release APK
+* Distribute via private channel or website
+* Collect latency/crash metrics
+* Feedback survey on reply accuracy
+
+**Deliverable:** Beta-ready Float AI Assistant.
+
+---
+
+### Data Flow
+
+```
+Overlay Tap
+   │
+   ▼
+Accessibility/OCR → Chat Text
+   │
+   ▼
+AI Engine (+ persona.json)
+   │
+   ▼
+Reply Options → Overlay UI
+   │
+   ▼
+User Tap → AccessibilityBridge Inserts Text
+   │
+   ▼
+Selection Logged → Persona Update
+```
+
+---
+
+### Key Modules
+
+| Module               | Function                          |
+| -------------------- | --------------------------------- |
+| overlay-service      | Floating bubble, animations       |
+| accessibility-bridge | Reply insertion, auto-send        |
+| ocr-manager          | ML Kit text capture               |
+| ai-engine            | LLM requests with persona context |
+| persona-engine       | Tone learning and updates         |
+| telemetry            | Crash and performance metrics     |
+
+---
+
+### Release Timeline
+
+| Week | Deliverable                      |
+| ---- | -------------------------------- |
+| 1    | Persistent overlay + OCR         |
+| 2    | Persona-based AI replies         |
+| 3    | Reply insertion + UI polish      |
+| 4    | Adaptive learning + Beta release |
+
+---
+
+### Outcome
+
+After four weeks, Durga AI Float Assistant will:
+
+* Stay active persistently on Android
+* Read chat context in real time
+* Generate persona-based natural replies
+* Insert or paste replies seamlessly
+* Adapt continuously from user behavior
